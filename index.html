@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XoX: Official Guild Page</title>
+  <style>
+    :root {
+      --primary-color: #2c5282;
+      --primary-light: #4a90c5;
+      --primary-dark: #1a365d;
+      --accent-color: #5a9fd4;
+      --accent-light: #90c9f0;
+      --bg-primary: #f7fafc;
+      --bg-secondary: #edf2f7;
+      --bg-card: #ffffff;
+      --text-primary: #2d3748;
+      --text-secondary: #4a5568;
+      --text-muted: #5d697b;
+      --border-color: #cbd5e0;
+      --hover-bg: #e6f2ff;
+      --shadow: rgba(45, 55, 72, 0.1);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 30px;
+      background-color: var(--bg-card);
+      box-shadow: 0 4px 12px var(--shadow);
+      border-radius: 12px;
+    }
+
+    header {
+      text-align: center;
+      border-bottom: 3px solid var(--primary-color);
+      padding-bottom: 25px;
+      margin-bottom: 40px;
+    }
+
+    header h1 {
+      color: var(--primary-color);
+      font-size: 2.5em;
+      margin: 0 0 10px 0;
+      font-weight: 700;
+    }
+
+    header p {
+      font-size: 1.1em;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    .section-title {
+      background-color: var(--bg-secondary);
+      color: var(--primary-dark);
+      font-size: 1.5em;
+      font-weight: 600;
+      border-left: 5px solid var(--primary-color);
+      padding: 18px 24px;
+      border-radius: 10px;
+    }
+
+    .guidelines {
+      padding: 20px;
+      background-color: var(--bg-card);
+      /* background-color: var(--bg-secondary); */
+      border-left: 4px solid var(--accent-color);
+      border-radius: 10px;
+      margin: 20px 20px 20px 20px;
+    }
+
+    .guidelines p {
+      color: var(--text-secondary);
+      margin: 0 0 15px 0;
+    }
+
+    .guidelines ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .guidelines li {
+      padding: 8px 0;
+    }
+
+    .guidelines a {
+      color: var(--primary-light);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+
+    .guidelines a:hover {
+      color: var(--primary-color);
+      text-decoration: underline;
+    }
+
+    .guidelines a::before {
+      content: "📋 ";
+      margin-right: 8px;
+    }
+
+    .reports-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .reports-list li {
+      background-color: var(--bg-secondary);
+      margin-bottom: 8px;
+      padding: 14px 18px;
+      border-radius: 6px;
+      border-left: 3px solid var(--accent-light);
+      transition: all 0.2s;
+    }
+
+    .reports-list li:hover {
+      background-color: var(--hover-bg);
+      border-left-color: var(--primary-light);
+      transform: translateX(4px);
+    }
+
+    .reports-list a {
+      text-decoration: none;
+      color: var(--text-primary);
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .reports-list a::before {
+      content: "📅 ";
+      margin-right: 10px;
+    }
+
+    .date {
+      font-weight: normal;
+      color: var(--text-muted);
+      font-size: 0.9em;
+    }
+
+    .reports-list li.feedback-report {
+      border-left: 3px solid #ff9800;
+    }
+    .reports-list li.feedback-report a::before {
+      content: "📢 ";
+      margin-right: 10px;
+    }
+
+    .reports-list li.raid-boss-report {
+      border-left: 3px solid #a200ff;
+    }
+    .reports-list li.raid-boss-report a::before {
+      content: "💀 ";
+      margin-right: 10px;
+    }
+
+    .report-section {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      margin-bottom: 20px;
+      padding: 20px;
+    }
+
+    .report-section h3 {
+      font-weight: 600;
+      font-size: 1.15em;
+      color: var(--primary-dark);
+      border-left: 5px solid var(--primary-color);
+      padding-left: 15px;
+      margin-bottom: 20px;
+    }
+
+    /* Accordion Styling */
+    .report-accordion {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      margin-bottom: 20px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .report-accordion summary {
+      padding: 18px 24px;
+      font-weight: 600;
+      font-size: 1.5em;
+      cursor: pointer;
+      background-color: var(--bg-secondary);
+      color: var(--primary-dark);
+      border-left: 5px solid var(--primary-color);
+      outline: none;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background-color 0.2s;
+    }
+
+    .report-accordion summary::after {
+      content: '▶';
+      font-size: 0.8em;
+      color: var(--primary-color);
+      transition: transform 0.3s;
+    }
+
+    .report-accordion[open] summary::after {
+      transform: rotate(90deg);
+    }
+
+    .report-accordion summary:hover {
+      background-color: var(--hover-bg);
+    }
+
+    .report-accordion .wa-reports,
+    .report-accordion .aoc-reports,
+    .report-accordion .tot-reports {
+      padding: 20px;
+      background-color: var(--bg-card);
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 60px;
+      padding: 30px 0;
+      border-top: 1px solid var(--border-color);
+      font-size: 0.9em;
+      color: var(--text-muted);
+    }
+
+    footer strong {
+      color: var(--primary-color);
+      font-weight: 600;
+    }
+
+    footer a {
+      color: #85c1e9;
+      text-decoration: none;
+    }
+
+    footer a:visited {
+      color: #5499c7;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <h1>XoX: Official Guild Page</h1>
+      <p>Guidelines & Reports</p>
+    </header>
+    
+    <details class="report-accordion" open>
+      <summary>Guidelines</summary>
+      <div class="guidelines">
+        <ul id="guidelines"></ul>
+      </div>
+    </details>
+    
+    <details class="report-accordion">
+      <summary>Weekly Activity Reports</summary>
+      <div class="wa-reports">
+        <ul class="reports-list" id="waReportsList"></ul>
+      </div>
+    </details>
+    
+    <details class="report-accordion">
+      <summary>Area of Conquest Activity Reports</summary>
+      <div class="aoc-reports">
+        <ul class="reports-list" id="aocReportsList"></ul>
+      </div>
+    </details>
+
+    <details class="report-accordion">
+      <summary>Territory of Titans Activity Reports</summary>
+      <div class="tot-reports">
+        <ul class="reports-list" id="totReportsList"></ul>
+      </div>
+    </details>
+
+    <details class="report-accordion">
+      <summary>Helpers and Tools</summary>
+      <div class="helpers">
+        <ul id="helpers">
+          <li><a href="helpers/strongford-quiz.html">Strongford Quiz Answer Finder</a>
+            <div style="margin-top: 5px; color: var(--text-secondary); font-size: 0.9em;">
+              <p style="margin-bottom: 5px;">Strongford quiz lookup tool. Searchable database consolidated from the following sources:</p>
+              <ul style="list-style: none; padding: 0; margin: 0;">
+                <li>- <a href="https://hero-wars.fandom.com/wiki/Special_Events/Strongford_Quiz" target="_blank" rel="noopener noreferrer">Hero Wars Wiki</a></li>
+                <li>- <a href="https://herowars-olympus.com/strongford-quiz/" target="_blank" rel="noopener noreferrer">Hero Wars Olympus</a></li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </details>
+
+    <footer>
+      <p>Powered by <strong>Ihg</strong> | Viewer © 2025-2026 All Rights Reserved</p>
+      <p><small>The reporting engine is licensed under the <a href="https://choosealicense.com/licenses/mit/" target="_blank" rel="noopener noreferrer">MIT License</a></small></p>
+    </footer>
+  </div>
+
+  <script>
+    // Load file list from JSON
+    let files = [];
+    
+    // Configuration
+    const config = {
+      filePattern: /^(.+)_(\d{4})(\d{2})(\d{2})_(\d+)days\.html$/, // pattern: *_YYYYMMDD_Ddays.html
+    };
+
+    // Extract date from filename
+    function extractInfoFromName(filename) {
+      const match = filename.match(config.filePattern);
+      if (!match) return { filename, docType: null, startDate: null, endDate: null };
+      
+      const [, docType, year, month, day, durationInDays] = match;
+      const startDate = new Date(year, month - 1, day);
+      const endDate = new Date(startDate.getTime() + (durationInDays - 1) * 86400000);
+      return { filename, docType, startDate, endDate };
+    }
+    
+    // Format date for display
+    function formatDate(fileObj) {
+      if (fileObj.startDate && fileObj.endDate)
+        return `${fileObj.startDate.toDateString()} ~ ${fileObj.endDate.toDateString()}`;
+      return 'Unknown Date';
+    }
+
+    // Process and sort files
+    function processFileList(fileList, sortBy, sortOrder) {
+      // Filter files matching the pattern and extract dates
+      const processedFiles = fileList
+        .map(extractInfoFromName)
+        .filter(item => item !== null);
+      
+      if (sortBy === 'date') {
+        // Sort by startDate, then by docType
+        processedFiles.sort((a, b) => {
+          const order = sortOrder === 'desc' ? -1 : 1;
+
+          // startDate comparison (null last)
+          const aDateNull = a.startDate === null;
+          const bDateNull = b.startDate === null;
+          if (aDateNull !== bDateNull) return aDateNull ? 1 : -1;
+          if (!aDateNull) {
+            const dateComp = order * (a.startDate - b.startDate);
+            if (dateComp !== 0) return dateComp;
+          }
+          
+          // docType comparison (null last)
+          const aTypeNull = a.docType === null;
+          const bTypeNull = b.docType === null;
+          if (aTypeNull !== bTypeNull) return aTypeNull ? 1 : -1;
+          if (!aTypeNull) return a.docType.localeCompare(b.docType);
+          
+          return 0;
+        });
+      } else if (sortBy === 'name') {
+        // Sort by filename alphabetically
+        processedFiles.sort((a, b) => {
+          const order = sortOrder === 'desc' ? -1 : 1;
+          return order * a.filename.localeCompare(b.filename);
+        });
+      }
+
+      return processedFiles;
+    }
+    
+    // Load files from JSON and render
+    async function loadAndRenderFiles() {
+      let currentListId = null;
+      try {
+        const response = await fetch('files.json');
+        files = await response.json();
+        for (const [category, {id: listId, folderPath, files: fileList, sortBy, sortOrder }] of Object.entries(files)) {
+          currentListId = listId;
+          try {
+            renderFileList(listId, fileList, folderPath, category, sortBy, sortOrder);
+          } catch (error) {
+            console.error('Error render files:', error);
+            document.getElementById(listId).innerHTML = '<li>Failed to render file list.</li>';
+          }
+        }
+      } catch (error) {
+        console.error('Error loading files:', error);
+        if (currentListId)
+          document.getElementById(currentListId).innerHTML = '<li>Failed to load file list.</li>';
+      }
+    }
+
+    // View report in iframe
+    function viewReport(category, pathname, isGeneric = false) {
+      const data = { category, pathname, isGeneric };
+      sessionStorage.setItem('viewer_params', JSON.stringify(data));
+      window.location.href = `report_viewer.html?_t=${new Date().getTime()}`;
+    }
+
+    // Render file list
+    function renderFileList(listId, fileList, folderPath, category, sortBy, sortOrder) {
+      const listElement = document.getElementById(listId);
+      if (!listElement) {
+        console.error(`Element with ID ${listId} not found.`);
+        return;
+      }
+      const processedFiles = processFileList(fileList, sortBy, sortOrder);
+      
+      if (processedFiles.length === 0) {
+        listElement.innerHTML = '<li>No items found.</li>';
+        return;
+      }
+
+      listElement.replaceChildren();
+      processedFiles.forEach(fileObj => {
+        const pathname = `${folderPath}\\${fileObj.filename}`;
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+
+        if (fileObj.docType === 'feedback') {
+          li.classList.add('feedback-report');
+          a.href = '#';
+          a.innerHTML = `Feedback Report: <span class="date">${formatDate(fileObj)}</span>`;
+          a.addEventListener('click', (e) => {
+            e.preventDefault();
+            viewReport(category, pathname);
+          });
+        } else if (fileObj.docType === 'activity') {
+          li.classList.add('activity-report');
+          a.href = '#';
+          a.innerHTML = `Activity Report: <span class="date">${formatDate(fileObj)}</span>`;
+          a.addEventListener('click', (e) => {
+            e.preventDefault();
+            viewReport(category, pathname);
+          });
+        } else if (fileObj.docType === 'raid_boss') {
+          li.classList.add('raid-boss-report');
+          a.href = '#';
+          a.innerHTML = `Raid Boss Report: <span class="date">${formatDate(fileObj)}</span>`;
+          a.addEventListener('click', (e) => {
+            e.preventDefault();
+            viewReport(category, pathname);
+          });
+        } else {
+          a.href = '#';
+          a.innerHTML = fileObj.filename.replace(/\.html$/i, '').replace(/_/g, ' ');
+          a.addEventListener('click', (e) => {
+            e.preventDefault();
+            viewReport(category, pathname, true);
+          });
+
+          // a.href = pathname;
+          // a.textContent = fileObj.filename.replace(/\.html$/i, '').replace(/_/g, ' ');
+        }
+
+        li.appendChild(a);
+        listElement.appendChild(li);
+      });
+    }
+    
+    // Initialize on page load
+    window.addEventListener('DOMContentLoaded', loadAndRenderFiles);
+  </script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+# .github/workflows/generate-file-list.yml
+name: Generate File List
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'guidelines/**/*.html'
+      - 'weekly reports/**/*.html'
+      - 'aoc reports/**/*.html'
+      - 'tot reports/**/*.html'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      # Fix: Set up Node.js 24 environment to comply with the latest runtime specifications
+      - name: Setup Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          
+      # Ensure jq tool is available in the runner environment
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq
+
+      # Generate file list
+      - name: Generate file list
+        run: |
+          # Function to find files safely and return a JSON array
+          get_files() {
+            local dir="$1"
+            if [ -d "$dir" ]; then
+              # If directory exists, find files and convert to JSON array
+              find "$dir" -maxdepth 1 -name "*.html" -type f -printf "%f\n" | jq -R -s -c 'split("\n")[:-1]'
+            else
+              # If directory doesn't exist, return empty JSON array
+              echo "[]"
+            fi
+          }
+
+          # Get file lists for each category
+          GL_FILES=$(get_files "guidelines")
+          WA_FILES=$(get_files "weekly reports")
+          AOC_FILES=$(get_files "aoc reports")
+          TOT_FILES=$(get_files "tot reports")
+
+          # Create final JSON using jq
+          jq -n \
+            --argjson gl "$GL_FILES" \
+            --argjson wa "$WA_FILES" \
+            --argjson aoc "$AOC_FILES" \
+            --argjson tot "$TOT_FILES" \
+            '{
+              gl: {title: "Essential Information", id: "guidelines", folderPath: "guidelines", files: $gl, sortBy: "name", sortOrder: "asc"},
+              wa: {title: "Weekly Activity Reports", id: "waReportsList", folderPath: "weekly reports", files: $wa, sortBy: "date", sortOrder: "desc"},
+              aoc: {title: "Area of Conquest Activity Reports", id: "aocReportsList", folderPath: "aoc reports", files: $aoc, sortBy: "date", sortOrder: "desc"},
+              tot: {title: "Territory of Titans Activity Reports", id: "totReportsList", folderPath: "tot reports", files: $tot, sortBy: "date", sortOrder: "desc"}
+            }' > files.json
+          
+      - name: Commit changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add files.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Update file list" && git push)
