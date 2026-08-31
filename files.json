@@ -11,7 +11,10 @@
     "title": "Weekly Activity Reports",
     "id": "waReportsList",
     "folderPath": "weekly reports",
-    "files": [],
+    "files": [
+      "activity_20260824_7days.html",
+      "raid_boss_20260824_7days.html"
+    ],
     "sortBy": "date",
     "sortOrder": "desc"
   },
