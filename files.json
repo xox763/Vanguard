@@ -12,8 +12,10 @@
     "id": "waReportsList",
     "folderPath": "weekly reports",
     "files": [
-      "activity_20260824_7days.html",
-      "raid_boss_20260824_7days.html"
+      "raid_boss_20260831_7days.html",
+      "raid_boss_20260824_7days.html",
+      "activity_20260831_7days.html",
+      "activity_20260824_7days.html"
     ],
     "sortBy": "date",
     "sortOrder": "desc"
